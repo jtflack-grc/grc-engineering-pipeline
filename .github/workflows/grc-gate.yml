@@ -41,7 +41,9 @@ jobs:
           base="https://github.com/open-policy-agent/conftest/releases/download/v${CONFTEST_VERSION}"
           curl -fsSL -o conftest.tar.gz "${base}/${asset}"
           curl -fsSL -o checksums.txt "${base}/checksums.txt"
-          grep "  ${asset}$" checksums.txt | sed "s#  ${asset}$#  conftest.tar.gz#" | sha256sum -c -
+          expected_sha="$(awk -v file="$asset" '$2 == file {print $1}' checksums.txt)"
+          test -n "$expected_sha"
+          echo "${expected_sha}  conftest.tar.gz" | sha256sum -c -
           tar -xzf conftest.tar.gz
           sudo mv conftest /usr/local/bin/conftest
 
