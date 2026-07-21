@@ -25,7 +25,7 @@ An end-to-end, evidence-first demonstration of engineered assurance. Terraform d
 - [Fresh policy evidence](https://github.com/jtflack-grc/grc-engineering-pipeline/actions/runs/29832256461) and [native evidence](https://github.com/jtflack-grc/grc-engineering-pipeline/actions/runs/29832256580) are generated, keyless-signed, verified, and published as artifacts.
 - [A compliant change passed](https://github.com/jtflack-grc/grc-engineering-club-week3/pull/1), while [an SC-28 regression was blocked](https://github.com/jtflack-grc/grc-engineering-club-week3/pull/2).
 - The [SC-28 traversal transcript](evidence/oscal-validation/sc28-traversal.txt) resolves OSCAL to a signed bundle and ends with `CHAIN INTACT`.
-- The [immutable-vault implementation](immutable-vault/) supplies the credential-dependent Object Lock upload and verification stage required by the final prize checklist.
+- The [immutable-vault implementation](immutable-vault/) produced [sanitized upload and active GOVERNANCE-retention proof](evidence/immutable-vault-upload-summary.json) for the signed evidence and signature bundles.
 
 ## Verify locally
 

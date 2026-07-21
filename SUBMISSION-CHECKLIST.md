@@ -10,7 +10,7 @@ Deadline: **July 31, 2026**. Submission endpoint: [cert.grcengclub.com/challenge
 | Conftest | [`policies/`](policies/) | [Green gate](https://github.com/jtflack-grc/grc-engineering-pipeline/actions/runs/29831090514), [6/6 OPA evidence](evidence/policy-tests/opa-test-6of6.txt) | Complete |
 | `trestle validate` | [`oscal/`](oscal/) | [`trestle-validation.txt`](evidence/oscal-validation/trestle-validation.txt) | Complete |
 | Cosign verification | [`scripts/verify-evidence.sh`](scripts/verify-evidence.sh) | [`sc28-traversal.txt`](evidence/oscal-validation/sc28-traversal.txt), [fresh policy signing](https://github.com/jtflack-grc/grc-engineering-pipeline/actions/runs/29832256461), [fresh native signing](https://github.com/jtflack-grc/grc-engineering-pipeline/actions/runs/29832256580) | Complete |
-| Vault upload | [`immutable-vault/`](immutable-vault/) | `evidence/immutable-vault-upload-summary.json` after authenticated execution | **Execution pending** |
+| Vault upload | [`immutable-vault/`](immutable-vault/) | [`immutable-vault-upload-summary.json`](evidence/immutable-vault-upload-summary.json): matching bundle hashes, `upload_verified: true`, active GOVERNANCE retention | Complete |
 
 ## Portfolio proof
 
@@ -21,7 +21,7 @@ Deadline: **July 31, 2026**. Submission endpoint: [cert.grcengclub.com/challenge
 - [x] `CHAIN INTACT` output linked
 - [x] Trestle `VALID` output linked
 - [x] Honest next-steps and learning sections
-- [ ] Add the sanitized immutable-vault upload summary after the authenticated run
+- [x] Add the sanitized immutable-vault upload summary after the authenticated run
 - [ ] Submit the final repository at the challenge endpoint before July 31
 - [ ] Publish the optional LinkedIn post and tag GRC Engineering Club with `#GRCEngClubChallenge`
 
