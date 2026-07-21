@@ -1,6 +1,6 @@
 # Immutable evidence vault
 
-This optional, credential-dependent stage closes the challenge's explicit `vault upload` criterion. It creates a private, encrypted, versioned S3 bucket with Object Lock enabled and a one-day governance retention period, uploads the signed Week 4 evidence and signature bundles, and verifies the retention metadata.
+This credential-dependent stage demonstrates immutable evidence preservation. It creates a private, encrypted, versioned S3 bucket with Object Lock enabled and a one-day governance retention period, uploads the signed evidence and signature bundles, and verifies the retention metadata.
 
 ## Run from an authenticated AWS environment
 

@@ -21,7 +21,7 @@ An end-to-end, evidence-first demonstration of engineered assurance. Terraform d
 
 - [Capstone pull request #1](https://github.com/jtflack-grc/grc-engineering-pipeline/pull/1) passed Terraform, OPA, Conftest, Trestle, and Cosign in one gate.
 - [Green capstone Actions run](https://github.com/jtflack-grc/grc-engineering-pipeline/actions/runs/29831090514) independently validated the complete committed chain.
-- [Prize-hardening gate](https://github.com/jtflack-grc/grc-engineering-pipeline/actions/runs/29832256441) validates the infrastructure, native-monitoring, and immutable-vault Terraform together.
+- [Comprehensive assurance gate](https://github.com/jtflack-grc/grc-engineering-pipeline/actions/runs/29832256441) validates the infrastructure, native-monitoring, and immutable-vault Terraform together.
 - [Fresh policy evidence](https://github.com/jtflack-grc/grc-engineering-pipeline/actions/runs/29832256461) and [native evidence](https://github.com/jtflack-grc/grc-engineering-pipeline/actions/runs/29832256580) are generated, keyless-signed, verified, and published as artifacts.
 - [A compliant change passed](https://github.com/jtflack-grc/grc-engineering-club-week3/pull/1), while [an SC-28 regression was blocked](https://github.com/jtflack-grc/grc-engineering-club-week3/pull/2).
 - The [SC-28 traversal transcript](evidence/oscal-validation/sc28-traversal.txt) resolves OSCAL to a signed bundle and ends with `CHAIN INTACT`.
@@ -64,6 +64,6 @@ conftest test evidence/policy-tests/terraform-plan.json --policy policies --name
 
 No AWS deployment is required to review or validate the committed evidence. The optional Terraform deployment and Week 5 native monitoring resources can incur AWS charges; deploy them only in an account you control.
 
-## Prize submission
+## Assurance checklist
 
-[`SUBMISSION-CHECKLIST.md`](SUBMISSION-CHECKLIST.md) maps every published requirement to public evidence and keeps the remaining human submission steps explicit.
+[`ASSURANCE-CHECKLIST.md`](ASSURANCE-CHECKLIST.md) provides a compact, evidence-linked verification matrix for the complete pipeline.
