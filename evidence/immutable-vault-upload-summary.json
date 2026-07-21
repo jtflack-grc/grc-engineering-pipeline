@@ -1,0 +1,26 @@
+{
+  "captured_at": "2026-07-21T13:13:07Z",
+  "region": "us-east-1",
+  "bucket_fingerprint": "2f957d7a07c3ff3b",
+  "upload_verified": true,
+  "objects": [
+    {
+      "key": "grc-capstone/20260721T131254Z/evidence.tar.gz",
+      "version_id": "kMrj3ALUa3n_xlDq.ticJo2KKn2ICx7j",
+      "sha256": "e9ae0b2bfba010395910dd1c5d2f261310df12351484831f6a71a8e19691d3e3",
+      "retention": {
+        "Mode": "GOVERNANCE",
+        "RetainUntilDate": "2026-07-22T13:12:58.200000+00:00"
+      }
+    },
+    {
+      "key": "grc-capstone/20260721T131254Z/evidence.sig.bundle",
+      "version_id": "SY24CVoNBHmWXhE96j1X4XoqrTljDBZd",
+      "sha256": "62c22dc2fb13a465d51098335dea3c5749d33d58e9b79493a3c5c8037f83a4b0",
+      "retention": {
+        "Mode": "GOVERNANCE",
+        "RetainUntilDate": "2026-07-22T13:13:04.534000+00:00"
+      }
+    }
+  ]
+}

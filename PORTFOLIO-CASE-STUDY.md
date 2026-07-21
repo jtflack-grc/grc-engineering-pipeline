@@ -33,6 +33,7 @@ I built an end-to-end assurance pipeline that takes an AWS S3 design from “the
 - **Reproducible evidence generation:** [`generate-signed-evidence.yml`](.github/workflows/generate-signed-evidence.yml)
 - **Native monitoring implementation:** [`native-monitoring/`](native-monitoring/)
 - **Immutable vault implementation:** [`immutable-vault/`](immutable-vault/)
+- **Verified vault upload:** [`immutable-vault-upload-summary.json`](evidence/immutable-vault-upload-summary.json) proves both matching bundle hashes were uploaded with active GOVERNANCE retention
 
 ## One claim, end to end
 
