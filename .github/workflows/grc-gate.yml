@@ -23,12 +23,14 @@ jobs:
           terraform_version: "1.15.8"
 
       - name: Validate Terraform
-        working-directory: terraform
         run: |
           set -euo pipefail
-          terraform fmt -check -diff
-          terraform init -backend=false -input=false
-          terraform validate
+          for directory in terraform native-monitoring immutable-vault; do
+            echo "Validating ${directory}"
+            terraform -chdir="$directory" fmt -check -diff
+            terraform -chdir="$directory" init -backend=false -input=false
+            terraform -chdir="$directory" validate
+          done
 
       - name: Install Conftest
         env:

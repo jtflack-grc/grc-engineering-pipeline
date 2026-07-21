@@ -16,6 +16,8 @@ I built an end-to-end assurance pipeline that takes an AWS S3 design from “the
 ## Proof
 
 - **Capstone repository:** [grc-engineering-pipeline](https://github.com/jtflack-grc/grc-engineering-pipeline)
+- **Capstone integration:** [pull request #1](https://github.com/jtflack-grc/grc-engineering-pipeline/pull/1)
+- **End-to-end green run:** [Terraform + OPA + Conftest + Trestle + Cosign](https://github.com/jtflack-grc/grc-engineering-pipeline/actions/runs/29831090514)
 - **Compliant change accepted:** [green pull request](https://github.com/jtflack-grc/grc-engineering-club-week3/pull/1)
 - **Noncompliant change blocked:** [red pull request](https://github.com/jtflack-grc/grc-engineering-club-week3/pull/2)
 - **Six of six Rego tests:** [`opa-test-6of6.txt`](evidence/policy-tests/opa-test-6of6.txt)
@@ -25,6 +27,9 @@ I built an end-to-end assurance pipeline that takes an AWS S3 design from “the
 - **OSCAL component:** [`component-definition.json`](oscal/component-definitions/grc-engineering-pipeline/component-definition.json)
 - **Four-control OSCAL profile:** [`profile.json`](oscal/profiles/grc-engineering-pipeline/profile.json)
 - **OSCAL validation:** [`trestle-validation.txt`](evidence/oscal-validation/trestle-validation.txt)
+- **Reproducible evidence generation:** [`generate-signed-evidence.yml`](.github/workflows/generate-signed-evidence.yml)
+- **Native monitoring implementation:** [`native-monitoring/`](native-monitoring/)
+- **Immutable vault implementation:** [`immutable-vault/`](immutable-vault/)
 
 ## One claim, end to end
 
@@ -32,7 +37,7 @@ For SC-28, Terraform configures server-side encryption on both buckets. Rego ass
 
 ## What I would do next
 
-I would move from this intentionally small demonstration to reusable modules and organization-wide guardrails: remote Terraform state with locking, KMS customer-managed keys, least-privilege deployment roles, protected environments, dependency and IaC scanning, and centrally retained evidence with Object Lock. I would also generate the OSCAL evidence links and hashes from CI so every release produces a versioned assessment package, then add automated link checking and scheduled signature re-verification.
+I would move from this intentionally small demonstration to reusable modules and organization-wide guardrails: remote Terraform state with locking, KMS customer-managed keys, least-privilege deployment roles, protected environments, dependency and IaC scanning, and a longer centrally governed retention policy. I would also generate versioned OSCAL assessment packages from each release, add automated link checking, and schedule signature and retention re-verification.
 
 ## What I learned
 

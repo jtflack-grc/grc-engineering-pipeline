@@ -6,3 +6,12 @@ terraform/*.tfstate
 terraform/*.tfstate.*
 terraform/*.tfplan
 terraform/.terraform.lock.hcl
+native-monitoring/.terraform/
+native-monitoring/*.tfstate
+native-monitoring/*.tfstate.*
+native-monitoring/.terraform.lock.hcl
+native-monitoring/evidence/
+immutable-vault/.terraform/
+immutable-vault/*.tfstate
+immutable-vault/*.tfstate.*
+immutable-vault/.terraform.lock.hcl

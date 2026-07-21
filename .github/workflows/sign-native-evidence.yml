@@ -1,0 +1,58 @@
+name: sign-native-evidence
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  sign:
+    name: sign-sanitized-native-evidence
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Validate sanitized evidence
+        run: |
+          set -euo pipefail
+          jq -e '.captured_finding_count >= 0' evidence/native-monitoring/security-hub-findings-summary.json
+          jq -e '.is_logging == true' evidence/native-monitoring/cloudtrail-status-summary.json
+
+      - name: Hash native evidence
+        run: |
+          set -euo pipefail
+          sha256sum evidence/native-monitoring/security-hub-findings-summary.json > security-hub-findings-summary.json.sha256
+
+      - name: Install Cosign
+        uses: sigstore/cosign-installer@v4.1.2
+
+      - name: Sign and verify native evidence
+        run: |
+          set -euo pipefail
+          cosign sign-blob \
+            --yes \
+            --bundle security-hub-findings-summary.sig.bundle \
+            evidence/native-monitoring/security-hub-findings-summary.json
+          cosign verify-blob \
+            --bundle security-hub-findings-summary.sig.bundle \
+            --certificate-oidc-issuer https://token.actions.githubusercontent.com \
+            --certificate-identity-regexp '^https://github.com/jtflack-grc/grc-engineering-pipeline/.github/workflows/sign-native-evidence.yml@refs/.*$' \
+            evidence/native-monitoring/security-hub-findings-summary.json
+
+      - name: Publish signed native evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: signed-native-evidence-${{ github.run_id }}
+          path: |
+            evidence/native-monitoring/security-hub-findings-summary.json
+            evidence/native-monitoring/cloudtrail-status-summary.json
+            security-hub-findings-summary.json.sha256
+            security-hub-findings-summary.sig.bundle
+          if-no-files-found: error
+          retention-days: 90
