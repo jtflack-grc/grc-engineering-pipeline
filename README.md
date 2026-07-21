@@ -4,7 +4,7 @@
 
 An end-to-end, evidence-first demonstration of engineered assurance. Terraform defines compliant AWS storage; Rego tests the plan; GitHub Actions blocks noncompliant changes; Cosign protects the resulting evidence; AWS-native controls monitor activity; and OSCAL makes the control claims traversable by an assessor.
 
-The detailed portfolio narrative is in [PORTFOLIO-CASE-STUDY.md](PORTFOLIO-CASE-STUDY.md).
+**Start here:** [read the 60-second portfolio case study](PORTFOLIO-CASE-STUDY.md), then follow each claim to its proof.
 
 ## Pipeline
 
@@ -13,9 +13,17 @@ The detailed portfolio narrative is in [PORTFOLIO-CASE-STUDY.md](PORTFOLIO-CASE-
 | 1 | Terraform implements SC-28, AC-3, CM-6, and AU-3 | [`terraform/`](terraform/) |
 | 2 | Rego unit tests and Conftest evaluate the Terraform plan | [`policies/`](policies/), [`evidence/policy-tests/`](evidence/policy-tests/) |
 | 3 | Pull requests are gated and fail closed | [green PR](https://github.com/jtflack-grc/grc-engineering-club-week3/pull/1), [blocked PR](https://github.com/jtflack-grc/grc-engineering-club-week3/pull/2) |
-| 4 | Gate evidence is hashed and keyless-signed | [`evidence/signed-bundle/`](evidence/signed-bundle/) |
-| 5 | CloudTrail and Security Hub provide native monitoring | [`evidence/native-monitoring/`](evidence/native-monitoring/) |
+| 4 | Gate evidence is generated, hashed, keyless-signed, and independently verified | [`generate-signed-evidence.yml`](.github/workflows/generate-signed-evidence.yml), [`evidence/signed-bundle/`](evidence/signed-bundle/) |
+| 5 | CloudTrail and Security Hub provide native monitoring and signed summaries | [`native-monitoring/`](native-monitoring/), [`sign-native-evidence.yml`](.github/workflows/sign-native-evidence.yml), [`evidence/native-monitoring/`](evidence/native-monitoring/) |
 | 6 | OSCAL maps controls to resources and evidence | [`oscal/`](oscal/) |
+
+## Verifiable highlights
+
+- [Capstone pull request #1](https://github.com/jtflack-grc/grc-engineering-pipeline/pull/1) passed Terraform, OPA, Conftest, Trestle, and Cosign in one gate.
+- [Green capstone Actions run](https://github.com/jtflack-grc/grc-engineering-pipeline/actions/runs/29831090514) independently validated the complete committed chain.
+- [A compliant change passed](https://github.com/jtflack-grc/grc-engineering-club-week3/pull/1), while [an SC-28 regression was blocked](https://github.com/jtflack-grc/grc-engineering-club-week3/pull/2).
+- The [SC-28 traversal transcript](evidence/oscal-validation/sc28-traversal.txt) resolves OSCAL to a signed bundle and ends with `CHAIN INTACT`.
+- The [immutable-vault implementation](immutable-vault/) supplies the credential-dependent Object Lock upload and verification stage required by the final prize checklist.
 
 ## Verify locally
 
@@ -53,3 +61,7 @@ conftest test evidence/policy-tests/terraform-plan.json --policy policies --name
 4. Run the verifier above to confirm the SHA-256 digest and keyless signature.
 
 No AWS deployment is required to review or validate the committed evidence. The optional Terraform deployment and Week 5 native monitoring resources can incur AWS charges; deploy them only in an account you control.
+
+## Prize submission
+
+[`SUBMISSION-CHECKLIST.md`](SUBMISSION-CHECKLIST.md) maps every published requirement to public evidence and keeps the remaining human submission steps explicit.

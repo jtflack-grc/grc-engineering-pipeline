@@ -1,0 +1,97 @@
+name: generate-signed-evidence
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  sign:
+    name: generate-and-sign-policy-evidence
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Install Conftest
+        env:
+          CONFTEST_VERSION: "0.68.2"
+        run: |
+          set -euo pipefail
+          curl -fsSL -o conftest.tar.gz "https://github.com/open-policy-agent/conftest/releases/download/v${CONFTEST_VERSION}/conftest_${CONFTEST_VERSION}_Linux_x86_64.tar.gz"
+          tar -xzf conftest.tar.gz
+          sudo mv conftest /usr/local/bin/conftest
+
+      - name: Run controls and capture machine-readable results
+        run: |
+          set -euo pipefail
+          mkdir -p generated-evidence
+          : > generated-evidence/gate-summary.txt
+
+          run_control() {
+            local label="$1"
+            local namespace="$2"
+            conftest test evidence/policy-tests/terraform-plan.json \
+              --policy policies \
+              --namespace "$namespace" \
+              --output json \
+              > "generated-evidence/${label}.json"
+            echo "${label}=pass" | tee -a generated-evidence/gate-summary.txt
+          }
+
+          run_control sc28 compliance.sc28_aws
+          run_control ac3 compliance.ac3_aws
+          run_control cm6 compliance.cm6_aws
+
+          jq -n \
+            --arg commit "$GITHUB_SHA" \
+            --arg run_id "$GITHUB_RUN_ID" \
+            --arg repository "$GITHUB_REPOSITORY" \
+            --slurpfile sc28 generated-evidence/sc28.json \
+            --slurpfile ac3 generated-evidence/ac3.json \
+            --slurpfile cm6 generated-evidence/cm6.json \
+            '{commit: $commit, run_id: $run_id, repository: $repository, conclusion: "pass", results: {sc28: $sc28[0], ac3: $ac3[0], cm6: $cm6[0]}}' \
+            > generated-evidence/manifest.json
+
+      - name: Bundle and hash evidence
+        run: |
+          set -euo pipefail
+          tar -czf generated-evidence.tar.gz generated-evidence/
+          sha256sum generated-evidence.tar.gz > generated-evidence.tar.gz.sha256
+
+      - name: Install Cosign
+        uses: sigstore/cosign-installer@v4.1.2
+
+      - name: Sign evidence with GitHub OIDC
+        run: |
+          set -euo pipefail
+          cosign sign-blob \
+            --yes \
+            --bundle generated-evidence.sig.bundle \
+            generated-evidence.tar.gz
+
+      - name: Verify the new signature before publishing
+        run: |
+          set -euo pipefail
+          cosign verify-blob \
+            --bundle generated-evidence.sig.bundle \
+            --certificate-oidc-issuer https://token.actions.githubusercontent.com \
+            --certificate-identity-regexp '^https://github.com/jtflack-grc/grc-engineering-pipeline/.github/workflows/generate-signed-evidence.yml@refs/.*$' \
+            generated-evidence.tar.gz
+
+      - name: Publish signed evidence artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: signed-grc-evidence-${{ github.run_id }}
+          path: |
+            generated-evidence/
+            generated-evidence.tar.gz
+            generated-evidence.tar.gz.sha256
+            generated-evidence.sig.bundle
+          if-no-files-found: error
+          retention-days: 90
