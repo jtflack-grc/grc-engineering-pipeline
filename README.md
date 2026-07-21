@@ -21,6 +21,8 @@ An end-to-end, evidence-first demonstration of engineered assurance. Terraform d
 
 - [Capstone pull request #1](https://github.com/jtflack-grc/grc-engineering-pipeline/pull/1) passed Terraform, OPA, Conftest, Trestle, and Cosign in one gate.
 - [Green capstone Actions run](https://github.com/jtflack-grc/grc-engineering-pipeline/actions/runs/29831090514) independently validated the complete committed chain.
+- [Prize-hardening gate](https://github.com/jtflack-grc/grc-engineering-pipeline/actions/runs/29832256441) validates the infrastructure, native-monitoring, and immutable-vault Terraform together.
+- [Fresh policy evidence](https://github.com/jtflack-grc/grc-engineering-pipeline/actions/runs/29832256461) and [native evidence](https://github.com/jtflack-grc/grc-engineering-pipeline/actions/runs/29832256580) are generated, keyless-signed, verified, and published as artifacts.
 - [A compliant change passed](https://github.com/jtflack-grc/grc-engineering-club-week3/pull/1), while [an SC-28 regression was blocked](https://github.com/jtflack-grc/grc-engineering-club-week3/pull/2).
 - The [SC-28 traversal transcript](evidence/oscal-validation/sc28-traversal.txt) resolves OSCAL to a signed bundle and ends with `CHAIN INTACT`.
 - The [immutable-vault implementation](immutable-vault/) supplies the credential-dependent Object Lock upload and verification stage required by the final prize checklist.
