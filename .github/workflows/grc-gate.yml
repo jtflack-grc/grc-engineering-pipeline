@@ -1,0 +1,83 @@
+name: grc-gate
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  assurance:
+    name: policy-oscal-evidence
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.15.8"
+
+      - name: Validate Terraform
+        working-directory: terraform
+        run: |
+          set -euo pipefail
+          terraform fmt -check -diff
+          terraform init -backend=false -input=false
+          terraform validate
+
+      - name: Install Conftest
+        env:
+          CONFTEST_VERSION: "0.68.2"
+        run: |
+          set -euo pipefail
+          curl -fsSL -o conftest.tar.gz "https://github.com/open-policy-agent/conftest/releases/download/v${CONFTEST_VERSION}/conftest_${CONFTEST_VERSION}_Linux_x86_64.tar.gz"
+          tar -xzf conftest.tar.gz
+          sudo mv conftest /usr/local/bin/conftest
+
+      - name: Install OPA
+        env:
+          OPA_VERSION: "1.18.2"
+        run: |
+          set -euo pipefail
+          curl -fsSL -o opa "https://openpolicyagent.org/downloads/v${OPA_VERSION}/opa_linux_amd64_static"
+          chmod +x opa
+          sudo mv opa /usr/local/bin/opa
+
+      - name: Test policy and Terraform plan
+        run: |
+          set -euo pipefail
+          opa test policies -v
+          for namespace in compliance.sc28_aws compliance.ac3_aws compliance.cm6_aws; do
+            conftest test evidence/policy-tests/terraform-plan.json --policy policies --namespace "$namespace"
+          done
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Trestle
+        run: pip install compliance-trestle==4.2.0
+
+      - name: Validate OSCAL
+        working-directory: oscal
+        run: |
+          set -euo pipefail
+          trestle validate -f component-definitions/grc-engineering-pipeline/component-definition.json
+          trestle validate -f profiles/grc-engineering-pipeline/profile.json
+
+      - name: Install Cosign
+        uses: sigstore/cosign-installer@v4.1.2
+
+      - name: Traverse OSCAL and verify signed evidence
+        run: |
+          set -euo pipefail
+          href="$(jq -r '.["component-definition"].components[]."control-implementations"[]."implemented-requirements"[] | select(."control-id" == "sc-28") | .links[] | select(.rel == "evidence") | .href' oscal/component-definitions/grc-engineering-pipeline/component-definition.json)"
+          evidence_path="$(realpath -m "oscal/component-definitions/grc-engineering-pipeline/${href}")"
+          test "$evidence_path" = "$(realpath evidence/signed-bundle/evidence.tar.gz)"
+          ./scripts/verify-evidence.sh "$evidence_path"

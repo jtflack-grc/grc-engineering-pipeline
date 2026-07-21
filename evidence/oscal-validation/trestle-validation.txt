@@ -1,0 +1,5 @@
+$ trestle validate -f component-definitions/grc-engineering-pipeline/component-definition.json
+VALID: Model component-definitions/grc-engineering-pipeline/component-definition.json passed the Validator to confirm the model passes all registered validation tests.
+
+$ trestle validate -f profiles/grc-engineering-pipeline/profile.json
+VALID: Model profiles/grc-engineering-pipeline/profile.json passed the Validator to confirm the model passes all registered validation tests.

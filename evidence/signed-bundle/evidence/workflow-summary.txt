@@ -1,0 +1,8 @@
+
+GRC gate summary
+Running compliance.sc28_aws against plan.json
+sc28=pass
+Running compliance.ac3_aws against plan.json
+ac3=pass
+Running compliance.cm6_aws against plan.json
+cm6=pass

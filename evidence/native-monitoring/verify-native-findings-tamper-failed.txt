@@ -1,0 +1,5 @@
+1. Integrity: checking SHA-256...
+Expected: 2a7b2f9d7829a356ce37aa07773066445b7e0ee095a964e11121216bb510cb3e
+Actual:   1574a8c93f34f41903d5e1011b65ad733dfd61eb93a134afd9628ea651fabe1c
+VERIFY FAILED: SHA-256 mismatch. Findings evidence was changed after signing.
+exit_code=1
