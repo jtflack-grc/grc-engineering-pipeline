@@ -17,6 +17,16 @@ An end-to-end, evidence-first demonstration of engineered assurance. Terraform d
 | 5 | CloudTrail and Security Hub provide native monitoring and signed summaries | [`native-monitoring/`](native-monitoring/), [`sign-native-evidence.yml`](.github/workflows/sign-native-evidence.yml), [`evidence/native-monitoring/`](evidence/native-monitoring/) |
 | 6 | OSCAL maps controls to resources and evidence | [`oscal/`](oscal/) |
 
+```mermaid
+flowchart TD
+    A["Terraform controls"] --> B["Rego and Conftest"]
+    B --> C["Pull-request gate"]
+    C --> D["Signed evidence"]
+    M["Native monitoring"] --> D
+    D --> V["Immutable vault"]
+    V --> O["OSCAL traversal"]
+```
+
 ## Verifiable highlights
 
 - [Capstone pull request #1](https://github.com/jtflack-grc/grc-engineering-pipeline/pull/1) passed Terraform, OPA, Conftest, Trestle, and Cosign in one gate.
@@ -52,6 +62,7 @@ Run the policy tests and plan gate:
 opa test policies -v
 conftest test evidence/policy-tests/terraform-plan.json --policy policies --namespace compliance.sc28_aws
 conftest test evidence/policy-tests/terraform-plan.json --policy policies --namespace compliance.ac3_aws
+conftest test evidence/policy-tests/terraform-plan.json --policy policies --namespace compliance.au3_aws
 conftest test evidence/policy-tests/terraform-plan.json --policy policies --namespace compliance.cm6_aws
 ```
 

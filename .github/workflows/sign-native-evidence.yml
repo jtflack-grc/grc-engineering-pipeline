@@ -16,7 +16,7 @@ jobs:
 
     steps:
       - name: Check out repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
 
       - name: Validate sanitized evidence
         run: |
@@ -30,7 +30,7 @@ jobs:
           sha256sum evidence/native-monitoring/security-hub-findings-summary.json > security-hub-findings-summary.json.sha256
 
       - name: Install Cosign
-        uses: sigstore/cosign-installer@v4.1.2
+        uses: sigstore/cosign-installer@6f9f17788090df1f26f669e9d70d6ae9567deba6 # v4.1.2
 
       - name: Sign and verify native evidence
         run: |
@@ -46,7 +46,7 @@ jobs:
             evidence/native-monitoring/security-hub-findings-summary.json
 
       - name: Publish signed native evidence
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: signed-native-evidence-${{ github.run_id }}
           path: |
