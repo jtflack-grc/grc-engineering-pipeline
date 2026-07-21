@@ -1,0 +1,33 @@
+{
+  "plan": "plan.json",
+  "policy_dir": "policies",
+  "conclusion": "pass",
+  "namespaces": {
+    "sc28": "compliance.sc28_aws",
+    "ac3": "compliance.ac3_aws",
+    "cm6": "compliance.cm6_aws"
+  },
+  "results": {
+    "sc28": [
+      {
+        "filename": "plan.json",
+        "namespace": "compliance.sc28_aws",
+        "successes": 1
+      }
+    ],
+    "ac3": [
+      {
+        "filename": "plan.json",
+        "namespace": "compliance.ac3_aws",
+        "successes": 1
+      }
+    ],
+    "cm6": [
+      {
+        "filename": "plan.json",
+        "namespace": "compliance.cm6_aws",
+        "successes": 1
+      }
+    ]
+  }
+}

@@ -1,0 +1,5 @@
+[31mFAIL[0m - ../week-1-broken-sc28/evidence/plan.json - compliance.sc28_aws - SC-28 violation: aws_s3_bucket.log has no matching aws_s3_bucket_server_side_encryption_configuration. Remediation: add server-side encryption configuration referencing this bucket.
+[31mFAIL[0m - ../week-1-broken-sc28/evidence/plan.json - compliance.sc28_aws - SC-28 violation: aws_s3_bucket.primary has no matching aws_s3_bucket_server_side_encryption_configuration. Remediation: add server-side encryption configuration referencing this bucket.
+
+[31m2 tests, 0 passed, 0 warnings, 2 failures, 0 exceptions[0m
+exit_code=1

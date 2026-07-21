@@ -1,0 +1,11 @@
+SC-28 evidence href: ../../../evidence/signed-bundle/evidence.tar.gz
+Resolved repository path: evidence/signed-bundle/evidence.tar.gz
+Evidence link resolves to the committed signed bundle.
+1. Integrity: checking SHA-256...
+   OK: SHA-256 matches.
+2. Authenticity and timeliness: verifying Cosign signature bundle...
+Verified OK
+   OK: Cosign verified the bundle.
+3. Preservation: checking immutable vault status if configured...
+   SKIPPED: no vault configured. Set VAULT_BUCKET and VAULT_KEY to verify preservation.
+CHAIN INTACT

@@ -1,0 +1,77 @@
+{
+  "component-definition": {
+    "uuid": "b0722f07-f5b4-4174-aa33-65806c146b79",
+    "metadata": {
+      "title": "GRC Engineering Pipeline Component Definition",
+      "last-modified": "2026-07-21T12:00:00Z",
+      "version": "1.0.0",
+      "oscal-version": "1.1.2"
+    },
+    "components": [
+      {
+        "uuid": "4938f42f-992a-4b33-9d06-6cbf33ba0ae4",
+        "type": "software",
+        "title": "GRC Engineering Pipeline",
+        "description": "A policy-as-code pipeline that defines compliant AWS storage, tests controls, gates pull requests, signs evidence, monitors the account, and maps implementation claims to verifiable proof.",
+        "purpose": "Provide machine-verifiable assurance for infrastructure controls and their supporting evidence.",
+        "control-implementations": [
+          {
+            "uuid": "eb7526bc-e155-43e1-af83-dccc82c8d1d1",
+            "source": "https://raw.githubusercontent.com/usnistgov/oscal-content/v1.3.0/nist.gov/SP800-53/rev5/json/NIST_SP-800-53_rev5_catalog.json",
+            "description": "Implementation of the four NIST SP 800-53 Rev. 5 controls demonstrated by this repository.",
+            "implemented-requirements": [
+              {
+                "uuid": "035e4fca-f83a-48a4-85aa-cbf7bbd96a02",
+                "control-id": "sc-28",
+                "description": "The primary and access-log S3 buckets use explicit server-side encryption configuration, while the pull-request gate rejects Terraform plans that omit encryption. The linked signed bundle contains the SC-28 Conftest result produced by the gate.",
+                "props": [
+                  { "name": "terraform-resource", "value": "aws_s3_bucket_server_side_encryption_configuration.primary" },
+                  { "name": "terraform-resource", "value": "aws_s3_bucket_server_side_encryption_configuration.log" }
+                ],
+                "links": [
+                  { "href": "../../../evidence/signed-bundle/evidence.tar.gz", "rel": "evidence", "text": "Signed Week 4 gate evidence bundle" }
+                ]
+              },
+              {
+                "uuid": "34ae4fb7-9afb-4be1-8093-7b3bfde608fb",
+                "control-id": "ac-3",
+                "description": "S3 Block Public Access is enabled for both buckets, and the policy gate rejects plans that permit public access. The linked signed bundle contains the AC-3 Conftest result produced by the gate.",
+                "props": [
+                  { "name": "terraform-resource", "value": "aws_s3_bucket_public_access_block.primary" },
+                  { "name": "terraform-resource", "value": "aws_s3_bucket_public_access_block.log" }
+                ],
+                "links": [
+                  { "href": "../../../evidence/signed-bundle/evidence.tar.gz", "rel": "evidence", "text": "Signed Week 4 gate evidence bundle" }
+                ]
+              },
+              {
+                "uuid": "4a8ce08c-c379-4eab-b6f8-f29b3423e6d8",
+                "control-id": "au-3",
+                "description": "The primary bucket sends access records to a dedicated logging bucket with enforced ownership controls. The signed gate bundle provides the contemporaneous policy results and workflow summary for the reviewed Terraform plan.",
+                "props": [
+                  { "name": "terraform-resource", "value": "aws_s3_bucket_logging.primary" },
+                  { "name": "terraform-resource", "value": "aws_s3_bucket.log" }
+                ],
+                "links": [
+                  { "href": "../../../evidence/signed-bundle/evidence.tar.gz", "rel": "evidence", "text": "Signed Week 4 gate evidence bundle" }
+                ]
+              },
+              {
+                "uuid": "7a6d9e60-a717-4973-9ceb-6038ec4f0179",
+                "control-id": "cm-6",
+                "description": "Versioning and required default tags are declared as Terraform configuration, and the pull-request gate rejects plans missing the required configuration. The linked signed bundle contains the CM-6 Conftest result produced by the gate.",
+                "props": [
+                  { "name": "terraform-resource", "value": "aws_s3_bucket_versioning.primary" },
+                  { "name": "terraform-resource", "value": "aws.provider.default_tags" }
+                ],
+                "links": [
+                  { "href": "../../../evidence/signed-bundle/evidence.tar.gz", "rel": "evidence", "text": "Signed Week 4 gate evidence bundle" }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
