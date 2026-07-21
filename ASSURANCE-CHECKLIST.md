@@ -7,7 +7,7 @@ This matrix gives a reviewer a direct path from each assurance capability to its
 | Capability | Implementation | Evidence | Result |
 |---|---|---|---|
 | Terraform validation | [`terraform/`](terraform/), [`native-monitoring/`](native-monitoring/), [`immutable-vault/`](immutable-vault/) | [All three Terraform stages green](https://github.com/jtflack-grc/grc-engineering-pipeline/actions/runs/29832256441) | Verified |
-| Policy as code | [`policies/`](policies/) | [Green gate](https://github.com/jtflack-grc/grc-engineering-pipeline/actions/runs/29831090514), [6/6 OPA evidence](evidence/policy-tests/opa-test-6of6.txt) | Verified |
+| Policy as code | [`policies/`](policies/) | Four Conftest namespaces and [8/8 OPA evidence](evidence/policy-tests/opa-test-8of8.txt) | Verified |
 | OSCAL schema validation | [`oscal/`](oscal/) | [`trestle-validation.txt`](evidence/oscal-validation/trestle-validation.txt) | Verified |
 | Signed evidence chain | [`scripts/verify-evidence.sh`](scripts/verify-evidence.sh) | [`sc28-traversal.txt`](evidence/oscal-validation/sc28-traversal.txt), [fresh policy signing](https://github.com/jtflack-grc/grc-engineering-pipeline/actions/runs/29832256461), [fresh native signing](https://github.com/jtflack-grc/grc-engineering-pipeline/actions/runs/29832256580) | Verified |
 | Immutable preservation | [`immutable-vault/`](immutable-vault/) | [`immutable-vault-upload-summary.json`](evidence/immutable-vault-upload-summary.json): matching hashes, `upload_verified: true`, active GOVERNANCE retention | Verified |

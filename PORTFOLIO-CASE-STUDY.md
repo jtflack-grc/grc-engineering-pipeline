@@ -7,7 +7,7 @@ I built an end-to-end assurance pipeline that takes an AWS S3 design from “the
 ## The six-stage pipeline
 
 1. **Compliant infrastructure:** Terraform enables encryption at rest (SC-28), blocks public access (AC-3), enforces versioning and required tags (CM-6), and writes access logs to a dedicated bucket (AU-3).
-2. **Policy as code:** Rego unit tests exercise compliant and broken cases; Conftest evaluates the Terraform plan rather than trusting source text.
+2. **Policy as code:** Rego unit tests exercise compliant and broken cases for all four claimed controls; Conftest evaluates the Terraform plan rather than trusting source text.
 3. **Enforcement:** The `grc-gate` GitHub Actions check runs on pull requests, records machine-readable results, and fails closed when a control fails.
 4. **Chain of custody:** The gate packages its outputs, records a SHA-256 digest, and signs the bundle keylessly with Cosign and GitHub Actions OIDC.
 5. **Native monitoring:** CloudTrail and Security Hub capture activity and findings, with sanitized summaries and signed verification evidence.
@@ -23,7 +23,7 @@ I built an end-to-end assurance pipeline that takes an AWS S3 design from “the
 - **Fresh signed native evidence:** [validate, hash, sign, verify, publish](https://github.com/jtflack-grc/grc-engineering-pipeline/actions/runs/29832256580)
 - **Compliant change accepted:** [green pull request](https://github.com/jtflack-grc/grc-engineering-club-week3/pull/1)
 - **Noncompliant change blocked:** [red pull request](https://github.com/jtflack-grc/grc-engineering-club-week3/pull/2)
-- **Six of six Rego tests:** [`opa-test-6of6.txt`](evidence/policy-tests/opa-test-6of6.txt)
+- **Eight of eight Rego tests:** [`opa-test-8of8.txt`](evidence/policy-tests/opa-test-8of8.txt)
 - **Signed evidence produced:** [Week 4 workflow run](https://github.com/jtflack-grc/grc-engineering-club-week4/actions/runs/29193660339)
 - **Chain verified:** [`verify-chain-intact.txt`](evidence/pull-request-gate/verify-chain-intact.txt) and the reproducible [verification script](scripts/verify-evidence.sh)
 - **Tampering rejected:** [`verify-tamper-failed.txt`](evidence/pull-request-gate/verify-tamper-failed.txt)

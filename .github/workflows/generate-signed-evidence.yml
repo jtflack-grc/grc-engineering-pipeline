@@ -16,22 +16,43 @@ jobs:
 
     steps:
       - name: Check out repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
 
       - name: Install Conftest
         env:
           CONFTEST_VERSION: "0.68.2"
         run: |
           set -euo pipefail
-          curl -fsSL -o conftest.tar.gz "https://github.com/open-policy-agent/conftest/releases/download/v${CONFTEST_VERSION}/conftest_${CONFTEST_VERSION}_Linux_x86_64.tar.gz"
+          asset="conftest_${CONFTEST_VERSION}_Linux_x86_64.tar.gz"
+          base="https://github.com/open-policy-agent/conftest/releases/download/v${CONFTEST_VERSION}"
+          curl -fsSL -o conftest.tar.gz "${base}/${asset}"
+          curl -fsSL -o checksums.txt "${base}/checksums.txt"
+          grep "  ${asset}$" checksums.txt | sed "s#  ${asset}$#  conftest.tar.gz#" | sha256sum -c -
           tar -xzf conftest.tar.gz
           sudo mv conftest /usr/local/bin/conftest
+
+      - name: Install Cosign
+        uses: sigstore/cosign-installer@6f9f17788090df1f26f669e9d70d6ae9567deba6 # v4.1.2
 
       - name: Run controls and capture machine-readable results
         run: |
           set -euo pipefail
-          mkdir -p generated-evidence
+          mkdir -p generated-evidence/policies
           : > generated-evidence/gate-summary.txt
+
+          cp evidence/policy-tests/terraform-plan.json generated-evidence/terraform-plan.json
+          cp policies/*.rego generated-evidence/policies/
+          sha256sum generated-evidence/terraform-plan.json > generated-evidence/terraform-plan.json.sha256
+          find generated-evidence/policies -type f -print0 \
+            | sort -z \
+            | xargs -0 sha256sum \
+            > generated-evidence/policy-sha256sums.txt
+          sha256sum generated-evidence/policy-sha256sums.txt > generated-evidence/policy-set.sha256
+
+          {
+            conftest --version
+            cosign version
+          } > generated-evidence/tool-versions.txt
 
           run_control() {
             local label="$1"
@@ -46,16 +67,41 @@ jobs:
 
           run_control sc28 compliance.sc28_aws
           run_control ac3 compliance.ac3_aws
+          run_control au3 compliance.au3_aws
           run_control cm6 compliance.cm6_aws
 
+          plan_sha256="$(awk '{print $1}' generated-evidence/terraform-plan.json.sha256)"
+          policy_set_sha256="$(awk '{print $1}' generated-evidence/policy-set.sha256)"
           jq -n \
+            --arg captured_at "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
             --arg commit "$GITHUB_SHA" \
+            --arg ref "$GITHUB_REF" \
             --arg run_id "$GITHUB_RUN_ID" \
+            --arg run_url "${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}" \
             --arg repository "$GITHUB_REPOSITORY" \
+            --arg workflow_ref "$GITHUB_WORKFLOW_REF" \
+            --arg plan_sha256 "$plan_sha256" \
+            --arg policy_set_sha256 "$policy_set_sha256" \
             --slurpfile sc28 generated-evidence/sc28.json \
             --slurpfile ac3 generated-evidence/ac3.json \
+            --slurpfile au3 generated-evidence/au3.json \
             --slurpfile cm6 generated-evidence/cm6.json \
-            '{commit: $commit, run_id: $run_id, repository: $repository, conclusion: "pass", results: {sc28: $sc28[0], ac3: $ac3[0], cm6: $cm6[0]}}' \
+            '{
+              captured_at: $captured_at,
+              repository: $repository,
+              commit: $commit,
+              ref: $ref,
+              workflow_ref: $workflow_ref,
+              run_id: $run_id,
+              run_url: $run_url,
+              inputs: {
+                terraform_plan_sha256: $plan_sha256,
+                policy_set_sha256: $policy_set_sha256
+              },
+              controls: ["ac-3", "au-3", "cm-6", "sc-28"],
+              conclusion: "pass",
+              results: {sc28: $sc28[0], ac3: $ac3[0], au3: $au3[0], cm6: $cm6[0]}
+            }' \
             > generated-evidence/manifest.json
 
       - name: Bundle and hash evidence
@@ -63,9 +109,6 @@ jobs:
           set -euo pipefail
           tar -czf generated-evidence.tar.gz generated-evidence/
           sha256sum generated-evidence.tar.gz > generated-evidence.tar.gz.sha256
-
-      - name: Install Cosign
-        uses: sigstore/cosign-installer@v4.1.2
 
       - name: Sign evidence with GitHub OIDC
         run: |
@@ -85,7 +128,7 @@ jobs:
             generated-evidence.tar.gz
 
       - name: Publish signed evidence artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: signed-grc-evidence-${{ github.run_id }}
           path: |

@@ -2,7 +2,7 @@
 
 | Evidence | What it demonstrates |
 |---|---|
-| [`policy-tests/`](policy-tests/) | Rego unit tests, passing Conftest runs, and the reviewed Terraform plan |
+| [`policy-tests/`](policy-tests/) | Eight Rego unit tests covering all four controls, passing Conftest runs, and the reviewed Terraform plan |
 | [`pull-request-gate/`](pull-request-gate/) | Successful chain verification and deliberate tamper rejection |
 | [`signed-bundle/`](signed-bundle/) | Original Week 4 evidence archive, SHA-256 sidecar, Cosign bundle, and extracted gate outputs |
 | [`native-monitoring/`](native-monitoring/) | Sanitized CloudTrail and Security Hub summaries plus verification results |

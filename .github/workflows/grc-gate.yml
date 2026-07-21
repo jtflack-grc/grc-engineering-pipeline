@@ -15,10 +15,10 @@ jobs:
 
     steps:
       - name: Check out repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
 
       - name: Set up Terraform
-        uses: hashicorp/setup-terraform@v3
+        uses: hashicorp/setup-terraform@b9cd54a3c349d3f38e8881555d616ced269862dd # v3
         with:
           terraform_version: "1.15.8"
 
@@ -37,7 +37,11 @@ jobs:
           CONFTEST_VERSION: "0.68.2"
         run: |
           set -euo pipefail
-          curl -fsSL -o conftest.tar.gz "https://github.com/open-policy-agent/conftest/releases/download/v${CONFTEST_VERSION}/conftest_${CONFTEST_VERSION}_Linux_x86_64.tar.gz"
+          asset="conftest_${CONFTEST_VERSION}_Linux_x86_64.tar.gz"
+          base="https://github.com/open-policy-agent/conftest/releases/download/v${CONFTEST_VERSION}"
+          curl -fsSL -o conftest.tar.gz "${base}/${asset}"
+          curl -fsSL -o checksums.txt "${base}/checksums.txt"
+          grep "  ${asset}$" checksums.txt | sed "s#  ${asset}$#  conftest.tar.gz#" | sha256sum -c -
           tar -xzf conftest.tar.gz
           sudo mv conftest /usr/local/bin/conftest
 
@@ -46,7 +50,10 @@ jobs:
           OPA_VERSION: "1.18.2"
         run: |
           set -euo pipefail
-          curl -fsSL -o opa "https://openpolicyagent.org/downloads/v${OPA_VERSION}/opa_linux_amd64_static"
+          base="https://github.com/open-policy-agent/opa/releases/download/v${OPA_VERSION}"
+          curl -fsSL -o opa "${base}/opa_linux_amd64_static"
+          curl -fsSL -o opa.sha256 "${base}/opa_linux_amd64_static.sha256"
+          sed 's#  opa_linux_amd64_static$#  opa#' opa.sha256 | sha256sum -c -
           chmod +x opa
           sudo mv opa /usr/local/bin/opa
 
@@ -54,12 +61,12 @@ jobs:
         run: |
           set -euo pipefail
           opa test policies -v
-          for namespace in compliance.sc28_aws compliance.ac3_aws compliance.cm6_aws; do
+          for namespace in compliance.sc28_aws compliance.ac3_aws compliance.au3_aws compliance.cm6_aws; do
             conftest test evidence/policy-tests/terraform-plan.json --policy policies --namespace "$namespace"
           done
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
         with:
           python-version: "3.12"
 
@@ -74,7 +81,7 @@ jobs:
           trestle validate -f profiles/grc-engineering-pipeline/profile.json
 
       - name: Install Cosign
-        uses: sigstore/cosign-installer@v4.1.2
+        uses: sigstore/cosign-installer@6f9f17788090df1f26f669e9d70d6ae9567deba6 # v4.1.2
 
       - name: Traverse OSCAL and verify signed evidence
         run: |
