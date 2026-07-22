@@ -32,7 +32,7 @@ I built an end-to-end assurance pipeline that takes an AWS S3 design from “the
 - **Reproducible evidence generation:** [`generate-signed-evidence.yml`](.github/workflows/generate-signed-evidence.yml)
 - **Native monitoring implementation:** [`native-monitoring/`](native-monitoring/)
 - **Immutable vault implementation:** [`immutable-vault/`](immutable-vault/)
-- **Verified vault upload:** [`immutable-vault-upload-summary.json`](evidence/immutable-vault-upload-summary.json) records verified Object Lock uploads and GOVERNANCE retention for the earlier signed bundle; the same script accepts the canonical bundle paths
+- **Verified vault upload:** [`immutable-vault-upload-summary.json`](evidence/immutable-vault-upload-summary.json) proves the canonical evidence archive and Cosign bundle were uploaded as versioned objects with GOVERNANCE retention; the archive hash matches the committed SHA-256 sidecar
 
 ## One claim, end to end
 

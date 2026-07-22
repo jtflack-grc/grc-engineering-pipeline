@@ -10,7 +10,7 @@ This matrix gives a reviewer a direct path from each assurance capability to its
 | Policy as code | [`policies/`](policies/) | Four Conftest namespaces and [8/8 OPA evidence](evidence/policy-tests/opa-test-8of8.txt) | Verified |
 | OSCAL schema validation | [`oscal/`](oscal/) | [`trestle-validation.txt`](evidence/oscal-validation/trestle-validation.txt) | Verified |
 | Signed evidence chain | [`scripts/verify-evidence.sh`](scripts/verify-evidence.sh) | [`sc28-traversal.txt`](evidence/oscal-validation/sc28-traversal.txt), [canonical `main` policy signing](https://github.com/jtflack-grc/grc-engineering-pipeline/actions/runs/29884555352), [fresh native signing](https://github.com/jtflack-grc/grc-engineering-pipeline/actions/runs/29832256580) | Verified |
-| Immutable preservation | [`immutable-vault/`](immutable-vault/) | [`immutable-vault-upload-summary.json`](evidence/immutable-vault-upload-summary.json): `upload_verified: true` and recorded GOVERNANCE-retention metadata for the earlier signed bundle | Verified |
+| Immutable preservation | [`immutable-vault/`](immutable-vault/) | [`immutable-vault-upload-summary.json`](evidence/immutable-vault-upload-summary.json): canonical archive hash matching the committed sidecar, `upload_verified: true`, version IDs, and recorded GOVERNANCE-retention metadata | Verified |
 
 ## Evidence quality
 
