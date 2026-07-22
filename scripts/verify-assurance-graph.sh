@@ -64,10 +64,14 @@ archive_sha="$(sha256sum "$EVIDENCE" | awk '{print $1}')"
 signature_sha="$(sha256sum "$SIGNATURE" | awk '{print $1}')"
 
 jq -e --arg archive_sha "$archive_sha" --arg signature_sha "$signature_sha" '.upload_verified == true and
+   .remote_integrity_verified == true and
+   .retention_requested_days >= 30 and
    (.objects | length) == 2 and
    (any(.objects[]; (.key | endswith("/generated-evidence.tar.gz")) and .sha256 == $archive_sha)) and
    (any(.objects[]; (.key | endswith("/generated-evidence.sig.bundle")) and .sha256 == $signature_sha)) and
    (all(.objects[]; (.version_id | length) > 0)) and
+   (all(.objects[]; .remote_integrity_verified == true)) and
+   (all(.objects[]; .content_length > 0)) and
    (all(.objects[]; .retention.Mode == "GOVERNANCE")) and
    (all(.objects[]; (.retention.RetainUntilDate | length) > 0))' "$VAULT_SUMMARY" >/dev/null || fail "vault proof does not match the committed archive and signature"
 

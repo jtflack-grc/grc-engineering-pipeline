@@ -1,25 +1,31 @@
 {
-  "captured_at": "2026-07-22T02:13:47Z",
+  "captured_at": "2026-07-22T02:37:38Z",
   "region": "us-east-1",
   "bucket_fingerprint": "2f957d7a07c3ff3b",
+  "retention_requested_days": 30,
   "upload_verified": true,
+  "remote_integrity_verified": true,
   "objects": [
     {
-      "key": "grc-capstone/20260722T021343Z/generated-evidence.tar.gz",
-      "version_id": "zrdTvELvI5e__A1X79rckuKXKDaFWf7e",
+      "key": "grc-capstone/20260722T023729Z/generated-evidence.tar.gz",
+      "version_id": "tI7dqAIDW.ir7ZVvqQNjp9xiEiZkwSP.",
       "sha256": "6a13f1e45868659816e8d5e445d4192856a58ea368e6b4d5cd509d6de2cd9f8a",
+      "content_length": 5899,
+      "remote_integrity_verified": true,
       "retention": {
         "Mode": "GOVERNANCE",
-        "RetainUntilDate": "2026-07-23T02:13:44.795000+00:00"
+        "RetainUntilDate": "2026-08-21T02:37:29+00:00"
       }
     },
     {
-      "key": "grc-capstone/20260722T021343Z/generated-evidence.sig.bundle",
-      "version_id": "QuDK6kaQ9ms0oVGMcIr.xdPPGl3YO26E",
+      "key": "grc-capstone/20260722T023729Z/generated-evidence.sig.bundle",
+      "version_id": "bHo5ffMsYLaa38arpsns0k2OZaO1ekfY",
       "sha256": "757adb12faf1d7a08899c980d6133e1f3db25f263a75ec03f6f85463cc70c388",
+      "content_length": 11135,
+      "remote_integrity_verified": true,
       "retention": {
         "Mode": "GOVERNANCE",
-        "RetainUntilDate": "2026-07-23T02:13:46.948000+00:00"
+        "RetainUntilDate": "2026-08-21T02:37:29+00:00"
       }
     }
   ]
