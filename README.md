@@ -32,10 +32,10 @@ flowchart TD
 - [Capstone pull request #1](https://github.com/jtflack-grc/grc-engineering-pipeline/pull/1) passed Terraform, OPA, Conftest, Trestle, and Cosign in one gate.
 - [Green capstone Actions run](https://github.com/jtflack-grc/grc-engineering-pipeline/actions/runs/29831090514) independently validated the complete committed chain.
 - [Comprehensive assurance gate](https://github.com/jtflack-grc/grc-engineering-pipeline/actions/runs/29832256441) validates the infrastructure, native-monitoring, and immutable-vault Terraform together.
-- [Fresh policy evidence](https://github.com/jtflack-grc/grc-engineering-pipeline/actions/runs/29832256461) and [native evidence](https://github.com/jtflack-grc/grc-engineering-pipeline/actions/runs/29832256580) are generated, keyless-signed, verified, and published as artifacts.
+- [Canonical policy evidence from `main`](https://github.com/jtflack-grc/grc-engineering-pipeline/actions/runs/29884555352) and [native evidence](https://github.com/jtflack-grc/grc-engineering-pipeline/actions/runs/29832256580) are generated, keyless-signed, verified, and published as artifacts.
 - [A compliant change passed](https://github.com/jtflack-grc/grc-engineering-club-week3/pull/1), while [an SC-28 regression was blocked](https://github.com/jtflack-grc/grc-engineering-club-week3/pull/2).
 - The [SC-28 traversal transcript](evidence/oscal-validation/sc28-traversal.txt) resolves OSCAL to a signed bundle and ends with `CHAIN INTACT`.
-- The [immutable-vault implementation](immutable-vault/) produced [sanitized upload and active GOVERNANCE-retention proof](evidence/immutable-vault-upload-summary.json) for the signed evidence and signature bundles.
+- The [immutable-vault implementation](immutable-vault/) produced [sanitized upload and recorded GOVERNANCE-retention proof](evidence/immutable-vault-upload-summary.json) for the signed evidence and signature bundles.
 
 ## Verify locally
 
@@ -51,7 +51,7 @@ trestle validate -f component-definitions/grc-engineering-pipeline/component-def
 trestle validate -f profiles/grc-engineering-pipeline/profile.json
 cd ..
 
-./scripts/verify-evidence.sh evidence/signed-bundle/evidence.tar.gz
+./scripts/verify-evidence.sh evidence/signed-bundle/generated-evidence.tar.gz
 ```
 
 The two OSCAL commands must report `VALID`; the evidence verifier must end with `CHAIN INTACT`.
@@ -70,7 +70,7 @@ conftest test evidence/policy-tests/terraform-plan.json --policy policies --name
 
 1. Open the [profile](oscal/profiles/grc-engineering-pipeline/profile.json) and confirm it selects exactly `ac-3`, `au-3`, `cm-6`, and `sc-28` from the pinned NIST catalog.
 2. Open the [component definition](oscal/component-definitions/grc-engineering-pipeline/component-definition.json) and find the `sc-28` implemented requirement.
-3. Follow its `rel: evidence` link to `evidence/signed-bundle/evidence.tar.gz`.
+3. Follow its `rel: evidence` link to `evidence/signed-bundle/generated-evidence.tar.gz`.
 4. Run the verifier above to confirm the SHA-256 digest and keyless signature.
 
 No AWS deployment is required to review or validate the committed evidence. The optional Terraform deployment and Week 5 native monitoring resources can incur AWS charges; deploy them only in an account you control.

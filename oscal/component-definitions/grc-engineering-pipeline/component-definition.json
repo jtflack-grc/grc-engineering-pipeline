@@ -3,8 +3,8 @@
     "uuid": "b0722f07-f5b4-4174-aa33-65806c146b79",
     "metadata": {
       "title": "GRC Engineering Pipeline Component Definition",
-      "last-modified": "2026-07-21T12:00:00Z",
-      "version": "1.0.0",
+      "last-modified": "2026-07-22T02:00:00Z",
+      "version": "1.1.0",
       "oscal-version": "1.1.2"
     },
     "components": [
@@ -29,7 +29,7 @@
                   { "name": "terraform-resource", "value": "aws_s3_bucket_server_side_encryption_configuration.log" }
                 ],
                 "links": [
-                  { "href": "../../../evidence/signed-bundle/evidence.tar.gz", "rel": "evidence", "text": "Signed Week 4 gate evidence bundle" }
+                  { "href": "../../../evidence/signed-bundle/generated-evidence.tar.gz", "rel": "evidence", "text": "Canonical signed capstone evidence bundle from main" }
                 ]
               },
               {
@@ -41,7 +41,7 @@
                   { "name": "terraform-resource", "value": "aws_s3_bucket_public_access_block.log" }
                 ],
                 "links": [
-                  { "href": "../../../evidence/signed-bundle/evidence.tar.gz", "rel": "evidence", "text": "Signed Week 4 gate evidence bundle" }
+                  { "href": "../../../evidence/signed-bundle/generated-evidence.tar.gz", "rel": "evidence", "text": "Canonical signed capstone evidence bundle from main" }
                 ]
               },
               {
@@ -53,7 +53,7 @@
                   { "name": "terraform-resource", "value": "aws_s3_bucket.log" }
                 ],
                 "links": [
-                  { "href": "../../../evidence/signed-bundle/evidence.tar.gz", "rel": "evidence", "text": "Signed Week 4 gate evidence bundle" }
+                  { "href": "../../../evidence/signed-bundle/generated-evidence.tar.gz", "rel": "evidence", "text": "Canonical signed capstone evidence bundle from main" }
                 ]
               },
               {
@@ -65,7 +65,7 @@
                   { "name": "terraform-resource", "value": "aws.provider.default_tags" }
                 ],
                 "links": [
-                  { "href": "../../../evidence/signed-bundle/evidence.tar.gz", "rel": "evidence", "text": "Signed Week 4 gate evidence bundle" }
+                  { "href": "../../../evidence/signed-bundle/generated-evidence.tar.gz", "rel": "evidence", "text": "Canonical signed capstone evidence bundle from main" }
                 ]
               }
             ]
