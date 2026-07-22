@@ -36,7 +36,7 @@ flowchart TD
 - [A compliant capstone change passed](https://github.com/jtflack-grc/grc-engineering-pipeline/pull/7), while [a deliberate SC-28 regression was blocked and closed unmerged](https://github.com/jtflack-grc/grc-engineering-pipeline/pull/9).
 - The [assurance-graph verifier](scripts/verify-assurance-graph.sh) checks the four-control claim, OSCAL links, signed manifest, workflow identity, archive and signature hashes, and vault record as one connected system.
 - The [SC-28 traversal transcript](evidence/oscal-validation/sc28-traversal.txt) resolves OSCAL to a signed bundle and ends with `CHAIN INTACT`.
-- The [immutable-vault implementation](immutable-vault/) produced [sanitized canonical-bundle upload and recorded GOVERNANCE-retention proof](evidence/immutable-vault-upload-summary.json) for the canonical evidence archive and its Cosign bundle; the recorded archive hash matches the committed SHA-256 sidecar.
+- The [immutable-vault implementation](immutable-vault/) produced [sanitized 30-day GOVERNANCE-retention proof](evidence/immutable-vault-upload-summary.json) for the canonical archive and Cosign bundle. The exact uploaded versions were downloaded and re-hashed; both remote hashes match the committed files.
 
 ## Verify locally
 
