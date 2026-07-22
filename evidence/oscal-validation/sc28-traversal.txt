@@ -1,6 +1,9 @@
-SC-28 evidence href: ../../../evidence/signed-bundle/evidence.tar.gz
-Resolved repository path: evidence/signed-bundle/evidence.tar.gz
-Evidence link resolves to the committed signed bundle.
+SC-28 evidence href: ../../../evidence/signed-bundle/generated-evidence.tar.gz
+Resolved repository path: evidence/signed-bundle/generated-evidence.tar.gz
+Evidence link resolves to the canonical signed capstone bundle from main.
+Canonical workflow run: https://github.com/jtflack-grc/grc-engineering-pipeline/actions/runs/29884555352
+Source ref: refs/heads/main
+Source commit: 2f91c47504581d36dc184809658fdbf9730ad13d
 1. Integrity: checking SHA-256...
    OK: SHA-256 matches.
 2. Authenticity and timeliness: verifying Cosign signature bundle...

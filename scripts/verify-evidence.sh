@@ -47,7 +47,7 @@ command -v cosign >/dev/null 2>&1 || fail "cosign is not installed or not in PAT
 echo "2. Authenticity and timeliness: verifying Cosign signature bundle..."
 
 OIDC_ISSUER="${COSIGN_OIDC_ISSUER:-https://token.actions.githubusercontent.com}"
-IDENTITY_REGEXP="${COSIGN_CERTIFICATE_IDENTITY_REGEXP:-^https://github.com/jtflack-grc/grc-engineering-club-week4/.github/workflows/grc-gate.yml@refs/.*$}"
+IDENTITY_REGEXP="${COSIGN_CERTIFICATE_IDENTITY_REGEXP:-^https://github.com/jtflack-grc/grc-engineering-pipeline/.github/workflows/generate-signed-evidence.yml@refs/heads/main$}"
 
 cosign verify-blob \
   --bundle "$SIG_BUNDLE" \

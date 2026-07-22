@@ -19,12 +19,11 @@ I built an end-to-end assurance pipeline that takes an AWS S3 design from “the
 - **Capstone integration:** [pull request #1](https://github.com/jtflack-grc/grc-engineering-pipeline/pull/1)
 - **End-to-end green run:** [Terraform + OPA + Conftest + Trestle + Cosign](https://github.com/jtflack-grc/grc-engineering-pipeline/actions/runs/29831090514)
 - **All Terraform stages validated:** [infrastructure + monitoring + immutable vault](https://github.com/jtflack-grc/grc-engineering-pipeline/actions/runs/29832256441)
-- **Fresh signed policy evidence:** [generate, hash, sign, verify, publish](https://github.com/jtflack-grc/grc-engineering-pipeline/actions/runs/29832256461)
+- **Canonical signed policy evidence from `main`:** [generate, hash, sign, verify, publish](https://github.com/jtflack-grc/grc-engineering-pipeline/actions/runs/29884555352)
 - **Fresh signed native evidence:** [validate, hash, sign, verify, publish](https://github.com/jtflack-grc/grc-engineering-pipeline/actions/runs/29832256580)
 - **Compliant change accepted:** [green pull request](https://github.com/jtflack-grc/grc-engineering-club-week3/pull/1)
 - **Noncompliant change blocked:** [red pull request](https://github.com/jtflack-grc/grc-engineering-club-week3/pull/2)
 - **Eight of eight Rego tests:** [`opa-test-8of8.txt`](evidence/policy-tests/opa-test-8of8.txt)
-- **Signed evidence produced:** [Week 4 workflow run](https://github.com/jtflack-grc/grc-engineering-club-week4/actions/runs/29193660339)
 - **Chain verified:** [`verify-chain-intact.txt`](evidence/pull-request-gate/verify-chain-intact.txt) and the reproducible [verification script](scripts/verify-evidence.sh)
 - **Tampering rejected:** [`verify-tamper-failed.txt`](evidence/pull-request-gate/verify-tamper-failed.txt)
 - **OSCAL component:** [`component-definition.json`](oscal/component-definitions/grc-engineering-pipeline/component-definition.json)
@@ -33,11 +32,11 @@ I built an end-to-end assurance pipeline that takes an AWS S3 design from “the
 - **Reproducible evidence generation:** [`generate-signed-evidence.yml`](.github/workflows/generate-signed-evidence.yml)
 - **Native monitoring implementation:** [`native-monitoring/`](native-monitoring/)
 - **Immutable vault implementation:** [`immutable-vault/`](immutable-vault/)
-- **Verified vault upload:** [`immutable-vault-upload-summary.json`](evidence/immutable-vault-upload-summary.json) proves both matching bundle hashes were uploaded with active GOVERNANCE retention
+- **Verified vault upload:** [`immutable-vault-upload-summary.json`](evidence/immutable-vault-upload-summary.json) records verified Object Lock uploads and GOVERNANCE retention for the earlier signed bundle; the same script accepts the canonical bundle paths
 
 ## One claim, end to end
 
-For SC-28, Terraform configures server-side encryption on both buckets. Rego asserts that the planned resources use an approved encryption algorithm. The pull-request gate records that result and signs the evidence bundle. The OSCAL component names the Terraform resources and links to that exact bundle. Running `scripts/verify-evidence.sh` proves the bundle still has its original digest and was signed by the expected Week 4 GitHub Actions workflow; it ends with `CHAIN INTACT`.
+For SC-28, Terraform configures server-side encryption on both buckets. Rego asserts that the planned resources use an approved encryption algorithm. The pull-request gate records that result and signs the evidence bundle. The OSCAL component names the Terraform resources and links to that exact bundle. Running `scripts/verify-evidence.sh` proves the bundle still has its original digest and was signed by the expected capstone `generate-signed-evidence` workflow on `main`; it ends with `CHAIN INTACT`.
 
 ## What I would do next
 

@@ -2,8 +2,8 @@
 # Deploy the vault first, then run this script from immutable-vault/.
 set -euo pipefail
 
-BUNDLE="${1:-../evidence/signed-bundle/evidence.tar.gz}"
-SIG_BUNDLE="${2:-../evidence/signed-bundle/evidence.sig.bundle}"
+BUNDLE="${1:-../evidence/signed-bundle/generated-evidence.tar.gz}"
+SIG_BUNDLE="${2:-../evidence/signed-bundle/generated-evidence.sig.bundle}"
 REGION="$(terraform output -raw aws_region)"
 BUCKET="$(terraform output -raw bucket_name)"
 RUN_TAG="$(date -u +%Y%m%dT%H%M%SZ)"
