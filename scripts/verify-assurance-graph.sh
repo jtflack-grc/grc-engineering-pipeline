@@ -50,7 +50,7 @@ manifest="$(mktemp)"
 trap 'rm -f "$manifest"' EXIT
 tar -xOf "$EVIDENCE" generated-evidence/manifest.json > "$manifest"
 
-jq -e +  --arg repository "$EXPECTED_REPOSITORY" +  --arg workflow_ref "$EXPECTED_WORKFLOW_REF" +  --argjson controls "$EXPECTED_CONTROLS" +  '.repository == $repository and
+jq -e --arg repository "$EXPECTED_REPOSITORY" --arg workflow_ref "$EXPECTED_WORKFLOW_REF" --argjson controls "$EXPECTED_CONTROLS" '.repository == $repository and
    .ref == "refs/heads/main" and
    .workflow_ref == $workflow_ref and
    .conclusion == "pass" and
@@ -58,17 +58,17 @@ jq -e +  --arg repository "$EXPECTED_REPOSITORY" +  --arg workflow_ref "$EXPECTE
    (.commit | test("^[0-9a-f]{40}$")) and
    (.run_id | test("^[0-9]+$")) and
    (.inputs.terraform_plan_sha256 | test("^[0-9a-f]{64}$")) and
-   (.inputs.policy_set_sha256 | test("^[0-9a-f]{64}$"))' +  "$manifest" >/dev/null || fail "signed manifest provenance or control results are inconsistent"
+   (.inputs.policy_set_sha256 | test("^[0-9a-f]{64}$"))' "$manifest" >/dev/null || fail "signed manifest provenance or control results are inconsistent"
 
 archive_sha="$(sha256sum "$EVIDENCE" | awk '{print $1}')"
 signature_sha="$(sha256sum "$SIGNATURE" | awk '{print $1}')"
 
-jq -e +  --arg archive_sha "$archive_sha" +  --arg signature_sha "$signature_sha" +  '.upload_verified == true and
+jq -e --arg archive_sha "$archive_sha" --arg signature_sha "$signature_sha" '.upload_verified == true and
    (.objects | length) == 2 and
    (any(.objects[]; (.key | endswith("/generated-evidence.tar.gz")) and .sha256 == $archive_sha)) and
    (any(.objects[]; (.key | endswith("/generated-evidence.sig.bundle")) and .sha256 == $signature_sha)) and
    (all(.objects[]; (.version_id | length) > 0)) and
    (all(.objects[]; .retention.Mode == "GOVERNANCE")) and
-   (all(.objects[]; (.retention.RetainUntilDate | length) > 0))' +  "$VAULT_SUMMARY" >/dev/null || fail "vault proof does not match the committed archive and signature"
+   (all(.objects[]; (.retention.RetainUntilDate | length) > 0))' "$VAULT_SUMMARY" >/dev/null || fail "vault proof does not match the committed archive and signature"
 
 echo "ASSURANCE GRAPH VERIFIED"
