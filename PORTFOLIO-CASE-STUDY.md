@@ -21,10 +21,10 @@ I built an end-to-end assurance pipeline that takes an AWS S3 design from “the
 - **All Terraform stages validated:** [infrastructure + monitoring + immutable vault](https://github.com/jtflack-grc/grc-engineering-pipeline/actions/runs/29832256441)
 - **Canonical signed policy evidence from `main`:** [generate, hash, sign, verify, publish](https://github.com/jtflack-grc/grc-engineering-pipeline/actions/runs/29884555352)
 - **Fresh signed native evidence:** [validate, hash, sign, verify, publish](https://github.com/jtflack-grc/grc-engineering-pipeline/actions/runs/29832256580)
-- **Compliant change accepted:** [green pull request](https://github.com/jtflack-grc/grc-engineering-club-week3/pull/1)
-- **Noncompliant change blocked:** [red pull request](https://github.com/jtflack-grc/grc-engineering-club-week3/pull/2)
+- **Compliant capstone change accepted:** [green pull request](https://github.com/jtflack-grc/grc-engineering-pipeline/pull/7)
+- **Noncompliant capstone change blocked:** [deliberate SC-28 regression rejected and closed unmerged](https://github.com/jtflack-grc/grc-engineering-pipeline/pull/9)
 - **Eight of eight Rego tests:** [`opa-test-8of8.txt`](evidence/policy-tests/opa-test-8of8.txt)
-- **Chain verified:** [`verify-chain-intact.txt`](evidence/pull-request-gate/verify-chain-intact.txt) and the reproducible [verification script](scripts/verify-evidence.sh)
+- **Assurance graph verified:** [`verify-assurance-graph.sh`](scripts/verify-assurance-graph.sh) checks the control scope, OSCAL links, signed manifest, workflow identity, archive and signature hashes, and vault record
 - **Tampering rejected:** [`verify-tamper-failed.txt`](evidence/pull-request-gate/verify-tamper-failed.txt)
 - **OSCAL component:** [`component-definition.json`](oscal/component-definitions/grc-engineering-pipeline/component-definition.json)
 - **Four-control OSCAL profile:** [`profile.json`](oscal/profiles/grc-engineering-pipeline/profile.json)
@@ -36,11 +36,11 @@ I built an end-to-end assurance pipeline that takes an AWS S3 design from “the
 
 ## One claim, end to end
 
-For SC-28, Terraform configures server-side encryption on both buckets. Rego asserts that the planned resources use an approved encryption algorithm. The pull-request gate records that result and signs the evidence bundle. The OSCAL component names the Terraform resources and links to that exact bundle. Running `scripts/verify-evidence.sh` proves the bundle still has its original digest and was signed by the expected capstone `generate-signed-evidence` workflow on `main`; it ends with `CHAIN INTACT`.
+For SC-28, Terraform configures server-side encryption on both buckets. Rego asserts that the planned resources use an approved encryption algorithm. The pull-request gate records that result and signs the evidence bundle. The OSCAL component names the Terraform resources and links to that exact bundle. Running `scripts/verify-assurance-graph.sh` traverses that link, verifies the digest and capstone workflow signature, checks the signed manifest, and reconciles the committed hashes with the vault record; it ends with `ASSURANCE GRAPH VERIFIED`.
 
 ## What I would do next
 
-I would move from this intentionally small demonstration to reusable modules and organization-wide guardrails: remote Terraform state with locking, KMS customer-managed keys, least-privilege deployment roles, protected environments, dependency and IaC scanning, and a longer centrally governed retention policy. I would also generate versioned OSCAL assessment packages from each release, add automated link checking, and schedule signature and retention re-verification.
+I would move from this intentionally small demonstration to reusable modules and organization-wide guardrails: remote Terraform state with locking, KMS customer-managed keys, least-privilege deployment roles, protected environments, dependency and IaC scanning, and a centrally governed retention policy appropriate to production records. I would also generate versioned OSCAL assessment packages from each release and schedule signature, link, and retention re-verification.
 
 ## What I learned
 

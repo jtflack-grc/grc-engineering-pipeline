@@ -85,10 +85,5 @@ jobs:
       - name: Install Cosign
         uses: sigstore/cosign-installer@6f9f17788090df1f26f669e9d70d6ae9567deba6 # v4.1.2
 
-      - name: Traverse OSCAL and verify signed evidence
-        run: |
-          set -euo pipefail
-          href="$(jq -r '.["component-definition"].components[]."control-implementations"[]."implemented-requirements"[] | select(."control-id" == "sc-28") | .links[] | select(.rel == "evidence") | .href' oscal/component-definitions/grc-engineering-pipeline/component-definition.json)"
-          evidence_path="$(realpath -m "oscal/component-definitions/grc-engineering-pipeline/${href}")"
-          test "$evidence_path" = "$(realpath evidence/signed-bundle/generated-evidence.tar.gz)"
-          ./scripts/verify-evidence.sh "$evidence_path"
+      - name: Traverse and verify the assurance graph
+        run: ./scripts/verify-assurance-graph.sh
