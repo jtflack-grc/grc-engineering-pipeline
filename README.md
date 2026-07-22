@@ -35,7 +35,7 @@ flowchart TD
 - [Canonical policy evidence from `main`](https://github.com/jtflack-grc/grc-engineering-pipeline/actions/runs/29884555352) and [native evidence](https://github.com/jtflack-grc/grc-engineering-pipeline/actions/runs/29832256580) are generated, keyless-signed, verified, and published as artifacts.
 - [A compliant change passed](https://github.com/jtflack-grc/grc-engineering-club-week3/pull/1), while [an SC-28 regression was blocked](https://github.com/jtflack-grc/grc-engineering-club-week3/pull/2).
 - The [SC-28 traversal transcript](evidence/oscal-validation/sc28-traversal.txt) resolves OSCAL to a signed bundle and ends with `CHAIN INTACT`.
-- The [immutable-vault implementation](immutable-vault/) produced [sanitized upload and recorded GOVERNANCE-retention proof](evidence/immutable-vault-upload-summary.json) for the signed evidence and signature bundles.
+- The [immutable-vault implementation](immutable-vault/) produced [sanitized canonical-bundle upload and recorded GOVERNANCE-retention proof](evidence/immutable-vault-upload-summary.json) for the canonical evidence archive and its Cosign bundle; the recorded archive hash matches the committed SHA-256 sidecar.
 
 ## Verify locally
 
