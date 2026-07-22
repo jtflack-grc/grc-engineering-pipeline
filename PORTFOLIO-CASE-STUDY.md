@@ -1,4 +1,4 @@
-# JT Flack: A GRC Engineering Pipeline, Built in Public
+#A GRC Engineering Pipeline, Built in Public
 
 ## What this is
 
