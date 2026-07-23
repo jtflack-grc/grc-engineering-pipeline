@@ -44,4 +44,4 @@ I would move from this intentionally small demonstration to reusable modules and
 
 ## What I learned
 
-The non-obvious lesson was that evidence quality is mostly about preserving relationships. A passing test is useful, but a control claim linked to the precise plan, workflow identity, digest, signature, and monitoring record is independently defensible. Keyless signing made that concrete: trust comes from the short-lived workload identity and transparency record, not from a long-lived private key that quietly becomes another control problem.
+The non-obvious lesson was that evidence quality is mostly about preserving relationships. A passing test is useful, but a control claim linked to the precise plan, workflow identity, digest, signature, and monitoring record is independently defensible. Keyless signing made that concrete: trust comes from the short-lived workload identity and transparency record, not from a long-lived private key that becomes another control problem.
