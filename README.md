@@ -4,7 +4,7 @@
 
 An end-to-end, evidence-first demonstration of engineered assurance. Terraform defines compliant AWS storage; Rego tests the plan; GitHub Actions blocks noncompliant changes; Cosign protects the resulting evidence; AWS-native controls monitor activity; and OSCAL makes the control claims traversable by an assessor.
 
-![GRC Engineering Pipeline overview showing Terraform controls, executable policy, pull-request enforcement, signed evidence, native cloud monitoring, OSCAL mapping, a blocked SC-28 regression, and the verified assurance graph.](docs/images/engineered-assurance-overview.png)
+![GRC Engineering Pipeline overview showing Terraform controls, executable policy, pull-request enforcement, signed evidence, native cloud monitoring, OSCAL mapping, a blocked SC-28 regression, and the verified assurance graph.](docs/images/engineered-assurance-overview.jpg)
 
 **Start here:** [read the 60-second portfolio case study](PORTFOLIO-CASE-STUDY.md), then follow each claim to its proof.
 
