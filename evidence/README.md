@@ -3,7 +3,7 @@
 | Evidence | What it demonstrates |
 |---|---|
 | [`policy-tests/`](policy-tests/) | Eight Rego unit tests covering all four controls, passing Conftest runs, and the reviewed Terraform plan |
-| [`pull-request-gate/`](pull-request-gate/) | Successful chain verification and deliberate tamper rejection |
+| [`pull-request-gate/`](pull-request-gate/) | Successful chain verification, deliberate tamper rejection, and signed evidence preserved for a failed gate |
 | [`signed-bundle/`](signed-bundle/) | Canonical capstone evidence archive from `main`, SHA-256 sidecar, Cosign bundle, and provenance |
 | [`native-monitoring/`](native-monitoring/) | Sanitized CloudTrail and Security Hub summaries plus verification results |
 | [`oscal-validation/`](oscal-validation/) | Reproducible Trestle validation and OSCAL-to-evidence traversal output |
