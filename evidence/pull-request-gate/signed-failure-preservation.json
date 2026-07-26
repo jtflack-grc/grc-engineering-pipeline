@@ -38,7 +38,13 @@
     "archive_sha256": "432d9df1201cfc565145857a7ed164c043a59c221c9426cfb2098ce11c00c760",
     "signature_bundle_sha256": "48c772819ce62fa85a230f68a8dbf98bfb18e468e01cb49ea21fb860b66ed76f",
     "archive_sidecar_verified": true,
-    "signature_verified_in_workflow": true
+    "signature_verified_in_workflow": true,
+    "durable_committed_copy": {
+      "archive": "evidence/pull-request-gate/signed-failure/generated-evidence.tar.gz",
+      "sha256_sidecar": "evidence/pull-request-gate/signed-failure/generated-evidence.tar.gz.sha256",
+      "signature_bundle": "evidence/pull-request-gate/signed-failure/generated-evidence.sig.bundle",
+      "provenance": "evidence/pull-request-gate/signed-failure/README.md"
+    }
   },
   "expected_failure": {
     "control_id": "sc-28",
