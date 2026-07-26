@@ -1,4 +1,4 @@
-## A GRC Engineering Pipeline, Built in Public
+# A GRC Engineering Pipeline, Built in Public
 
 ## What this is
 
@@ -22,7 +22,7 @@ I built an end-to-end assurance pipeline that takes an AWS S3 design from “the
 - **Canonical signed policy evidence from `main`:** [generate, hash, sign, verify, publish](https://github.com/jtflack-grc/grc-engineering-pipeline/actions/runs/29884555352)
 - **Fresh signed native evidence:** [validate, hash, sign, verify, publish](https://github.com/jtflack-grc/grc-engineering-pipeline/actions/runs/29832256580)
 - **Compliant capstone change accepted:** [green pull request](https://github.com/jtflack-grc/grc-engineering-pipeline/pull/7)
-- **Noncompliant capstone change blocked with signed evidence:** [deliberate SC-28 regression rejected and closed unmerged](https://github.com/jtflack-grc/grc-engineering-pipeline/pull/15); the [failed run](https://github.com/jtflack-grc/grc-engineering-pipeline/actions/runs/30218444910) bundled, hashed, signed, verified, and published its failure evidence before enforcement
+- **Noncompliant capstone change blocked with signed evidence:** [deliberate SC-28 regression rejected and closed unmerged](https://github.com/jtflack-grc/grc-engineering-pipeline/pull/15); the [failed run](https://github.com/jtflack-grc/grc-engineering-pipeline/actions/runs/30218444910) bundled, hashed, signed, verified, and published its failure evidence before enforcement, and the [sanitized archive and signature](evidence/pull-request-gate/signed-failure/) remain committed for durable verification
 - **Eight of eight Rego tests:** [`opa-test-8of8.txt`](evidence/policy-tests/opa-test-8of8.txt)
 - **Assurance graph verified:** [`verify-assurance-graph.sh`](scripts/verify-assurance-graph.sh) checks the control scope, OSCAL links, signed manifest, workflow identity, archive and signature hashes, and vault record
 - **Tampering rejected:** [`verify-tamper-failed.txt`](evidence/pull-request-gate/verify-tamper-failed.txt)
