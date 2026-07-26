@@ -8,7 +8,7 @@ I built an end-to-end assurance pipeline that takes an AWS S3 design from “the
 
 1. **Compliant infrastructure:** Terraform enables encryption at rest (SC-28), blocks public access (AC-3), enforces versioning and required tags (CM-6), and writes access logs to a dedicated bucket (AU-3).
 2. **Policy as code:** Rego unit tests exercise compliant and broken cases for all four claimed controls; Conftest evaluates the Terraform plan rather than trusting source text.
-3. **Enforcement:** The `grc-gate` GitHub Actions check runs on pull requests, records machine-readable results, and fails closed when a control fails.
+3. **Enforcement:** The `grc-gate` GitHub Actions check runs on pull requests, records machine-readable results, and fails closed when a control fails; rejected decisions are signed and retained before the workflow returns failure.
 4. **Chain of custody:** The gate packages its outputs, records a SHA-256 digest, and signs the bundle keylessly with Cosign and GitHub Actions OIDC.
 5. **Native monitoring:** CloudTrail and Security Hub capture activity and findings, with sanitized summaries and signed verification evidence.
 6. **Auditor traversal:** An OSCAL profile states the four controls in scope; the component definition explains how each is implemented and links to the signed bundle.
@@ -22,7 +22,7 @@ I built an end-to-end assurance pipeline that takes an AWS S3 design from “the
 - **Canonical signed policy evidence from `main`:** [generate, hash, sign, verify, publish](https://github.com/jtflack-grc/grc-engineering-pipeline/actions/runs/29884555352)
 - **Fresh signed native evidence:** [validate, hash, sign, verify, publish](https://github.com/jtflack-grc/grc-engineering-pipeline/actions/runs/29832256580)
 - **Compliant capstone change accepted:** [green pull request](https://github.com/jtflack-grc/grc-engineering-pipeline/pull/7)
-- **Noncompliant capstone change blocked:** [deliberate SC-28 regression rejected and closed unmerged](https://github.com/jtflack-grc/grc-engineering-pipeline/pull/9)
+- **Noncompliant capstone change blocked with signed evidence:** [deliberate SC-28 regression rejected and closed unmerged](https://github.com/jtflack-grc/grc-engineering-pipeline/pull/15); the [failed run](https://github.com/jtflack-grc/grc-engineering-pipeline/actions/runs/30218444910) bundled, hashed, signed, verified, and published its failure evidence before enforcement
 - **Eight of eight Rego tests:** [`opa-test-8of8.txt`](evidence/policy-tests/opa-test-8of8.txt)
 - **Assurance graph verified:** [`verify-assurance-graph.sh`](scripts/verify-assurance-graph.sh) checks the control scope, OSCAL links, signed manifest, workflow identity, archive and signature hashes, and vault record
 - **Tampering rejected:** [`verify-tamper-failed.txt`](evidence/pull-request-gate/verify-tamper-failed.txt)
