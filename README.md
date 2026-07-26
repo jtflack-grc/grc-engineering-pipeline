@@ -14,7 +14,7 @@ An end-to-end, evidence-first demonstration of engineered assurance. Terraform d
 |---|---|---|
 | 1 | Terraform implements SC-28, AC-3, CM-6, and AU-3 | [`terraform/`](terraform/) |
 | 2 | Rego unit tests and Conftest evaluate the Terraform plan | [`policies/`](policies/), [`evidence/policy-tests/`](evidence/policy-tests/) |
-| 3 | Pull requests are gated and fail closed | [green capstone PR](https://github.com/jtflack-grc/grc-engineering-pipeline/pull/7), [blocked capstone PR](https://github.com/jtflack-grc/grc-engineering-pipeline/pull/9) |
+| 3 | Pull requests are gated and fail closed | [green capstone PR](https://github.com/jtflack-grc/grc-engineering-pipeline/pull/7), [blocked SC-28 PR with signed failure evidence](https://github.com/jtflack-grc/grc-engineering-pipeline/pull/15) |
 | 4 | Gate evidence is generated, hashed, keyless-signed, and independently verified | [`generate-signed-evidence.yml`](.github/workflows/generate-signed-evidence.yml), [`evidence/signed-bundle/`](evidence/signed-bundle/) |
 | 5 | CloudTrail and Security Hub provide native monitoring and signed summaries | [`native-monitoring/`](native-monitoring/), [`sign-native-evidence.yml`](.github/workflows/sign-native-evidence.yml), [`evidence/native-monitoring/`](evidence/native-monitoring/) |
 | 6 | OSCAL maps controls to resources and evidence | [`oscal/`](oscal/) |
@@ -35,7 +35,7 @@ flowchart TD
 - [Green capstone Actions run](https://github.com/jtflack-grc/grc-engineering-pipeline/actions/runs/29831090514) independently validated the complete committed chain.
 - [Comprehensive assurance gate](https://github.com/jtflack-grc/grc-engineering-pipeline/actions/runs/29832256441) validates the infrastructure, native-monitoring, and immutable-vault Terraform together.
 - [Canonical policy evidence from `main`](https://github.com/jtflack-grc/grc-engineering-pipeline/actions/runs/29884555352) and [native evidence](https://github.com/jtflack-grc/grc-engineering-pipeline/actions/runs/29832256580) are generated, keyless-signed, verified, and published as artifacts.
-- [A compliant capstone change passed](https://github.com/jtflack-grc/grc-engineering-pipeline/pull/7), while [a deliberate SC-28 regression was blocked and closed unmerged](https://github.com/jtflack-grc/grc-engineering-pipeline/pull/9).
+- [A compliant capstone change passed](https://github.com/jtflack-grc/grc-engineering-pipeline/pull/7), while [a deliberate SC-28 regression was blocked, signed, and closed unmerged](https://github.com/jtflack-grc/grc-engineering-pipeline/pull/15). Its [failed workflow](https://github.com/jtflack-grc/grc-engineering-pipeline/actions/runs/30218444910) published verifiable evidence before enforcing the rejection.
 - The [assurance-graph verifier](scripts/verify-assurance-graph.sh) checks the four-control claim, OSCAL links, signed manifest, workflow identity, archive and signature hashes, and vault record as one connected system.
 - The [SC-28 traversal transcript](evidence/oscal-validation/sc28-traversal.txt) resolves OSCAL to a signed bundle and ends with `CHAIN INTACT`.
 - The [immutable-vault implementation](immutable-vault/) produced [sanitized 30-day GOVERNANCE-retention proof](evidence/immutable-vault-upload-summary.json) for the canonical archive and Cosign bundle. The exact uploaded versions were downloaded and re-hashed; both remote hashes match the committed files.
