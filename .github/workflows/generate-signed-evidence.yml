@@ -41,6 +41,7 @@ jobs:
           set -euo pipefail
           mkdir -p generated-evidence/policies
           : > generated-evidence/gate-summary.txt
+          gate_failed=0
 
           cp evidence/policy-tests/terraform-plan.json generated-evidence/terraform-plan.json
           cp policies/*.rego generated-evidence/policies/
@@ -59,12 +60,24 @@ jobs:
           run_control() {
             local label="$1"
             local namespace="$2"
+            local exit_code
+
+            set +e
             conftest test evidence/policy-tests/terraform-plan.json \
               --policy policies \
               --namespace "$namespace" \
               --output json \
-              > "generated-evidence/${label}.json"
-            echo "${label}=pass" | tee -a generated-evidence/gate-summary.txt
+              > "generated-evidence/${label}.json" \
+              2> "generated-evidence/${label}.stderr.txt"
+            exit_code=$?
+            set -e
+
+            if [[ "$exit_code" -eq 0 ]]; then
+              echo "${label}=pass exit_code=0" | tee -a generated-evidence/gate-summary.txt
+            else
+              echo "${label}=fail exit_code=${exit_code}" | tee -a generated-evidence/gate-summary.txt
+              gate_failed=1
+            fi
           }
 
           run_control sc28 compliance.sc28_aws
@@ -74,9 +87,17 @@ jobs:
 
           plan_sha256="$(awk '{print $1}' generated-evidence/terraform-plan.json.sha256)"
           policy_set_sha256="$(awk '{print $1}' generated-evidence/policy-set.sha256)"
+          if [[ "$gate_failed" -eq 0 ]]; then
+            conclusion="pass"
+          else
+            conclusion="fail"
+          fi
+          printf '%s\n' "$gate_failed" > generated-evidence/gate-exit-code.txt
+
           jq -n \
             --arg captured_at "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
             --arg commit "$GITHUB_SHA" \
+            --arg conclusion "$conclusion" \
             --arg ref "$GITHUB_REF" \
             --arg run_id "$GITHUB_RUN_ID" \
             --arg run_url "${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}" \
@@ -101,7 +122,7 @@ jobs:
                 policy_set_sha256: $policy_set_sha256
               },
               controls: ["ac-3", "au-3", "cm-6", "sc-28"],
-              conclusion: "pass",
+              conclusion: $conclusion,
               results: {sc28: $sc28[0], ac3: $ac3[0], au3: $au3[0], cm6: $cm6[0]}
             }' \
             > generated-evidence/manifest.json
@@ -140,3 +161,13 @@ jobs:
             generated-evidence.sig.bundle
           if-no-files-found: error
           retention-days: 90
+
+      - name: Enforce policy decision after evidence publication
+        run: |
+          set -euo pipefail
+          gate_exit_code="$(cat generated-evidence/gate-exit-code.txt)"
+          if [[ "$gate_exit_code" -ne 0 ]]; then
+            echo "Policy gate failed. Signed failure evidence was published before blocking this change." >&2
+            exit 1
+          fi
+          echo "Policy gate passed. Signed success evidence was published."
