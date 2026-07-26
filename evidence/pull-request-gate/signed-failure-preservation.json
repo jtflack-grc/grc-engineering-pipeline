@@ -1,0 +1,47 @@
+{
+  "captured_at": "2026-07-26T20:11:32Z",
+  "pull_request": "https://github.com/jtflack-grc/grc-engineering-pipeline/pull/15",
+  "workflow_run": "https://github.com/jtflack-grc/grc-engineering-pipeline/actions/runs/30218444910",
+  "workflow_run_id": 30218444910,
+  "workflow_conclusion": "failure",
+  "enforcement": "failed_after_artifact_publication",
+  "signed_manifest": {
+    "conclusion": "fail",
+    "ref": "refs/pull/15/merge",
+    "commit": "44bffe933a11b7799b8b3b83a658bf4f66ec692b",
+    "controls": [
+      "ac-3",
+      "au-3",
+      "cm-6",
+      "sc-28"
+    ],
+    "results": {
+      "sc-28": "fail",
+      "ac-3": "pass",
+      "au-3": "pass",
+      "cm-6": "pass"
+    }
+  },
+  "successful_evidence_steps": [
+    "capture_machine_readable_results",
+    "bundle",
+    "sha256_hash",
+    "keyless_sign_with_github_oidc",
+    "cosign_verify",
+    "publish_artifact"
+  ],
+  "artifact": {
+    "id": 8636473694,
+    "name": "signed-grc-evidence-30218444910",
+    "digest": "sha256:3231f48f4424da691c5bf0c3663c6b976900ae7d5c57b00199b6f88afa3ff050",
+    "expires_at": "2026-10-24T20:11:20Z",
+    "archive_sha256": "432d9df1201cfc565145857a7ed164c043a59c221c9426cfb2098ce11c00c760",
+    "signature_bundle_sha256": "48c772819ce62fa85a230f68a8dbf98bfb18e468e01cb49ea21fb860b66ed76f",
+    "archive_sidecar_verified": true,
+    "signature_verified_in_workflow": true
+  },
+  "expected_failure": {
+    "control_id": "sc-28",
+    "message": "SC-28 violation: aws_s3_bucket.primary has no matching aws_s3_bucket_server_side_encryption_configuration. Remediation: add server-side encryption configuration referencing this bucket."
+  }
+}
